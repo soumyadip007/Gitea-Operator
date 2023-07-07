@@ -11,10 +11,13 @@ metadata:
 spec:
   # TODO(user): Add fields here
   name: 'gitea'
+  namespace: 'gitea-ns'
+  service: 'gitea-service'
+  deploymentname: 'gitea-deployment'
   versions: '1.0.1'
   image : 'gitea/gitea'
   port: 80
   replicas: 3
   targetport: 3000
   containerport : 3000
-  nodeport: 300000
+  nodeport: 30001

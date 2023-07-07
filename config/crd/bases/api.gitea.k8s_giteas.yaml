@@ -38,9 +38,13 @@ spec:
               containerport:
                 format: int32
                 type: integer
+              deploymentname:
+                type: string
               image:
                 type: string
               name:
+                type: string
+              namespace:
                 type: string
               nodeport:
                 format: int32
@@ -51,18 +55,22 @@ spec:
               replicas:
                 format: int32
                 type: integer
+              service:
+                type: string
               targetport:
-                format: int32
                 type: integer
               versions:
                 type: string
             required:
             - containerport
+            - deploymentname
             - image
             - name
+            - namespace
             - nodeport
             - port
             - replicas
+            - service
             - targetport
             - versions
             type: object
