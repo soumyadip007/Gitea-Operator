@@ -1,0 +1,76 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.11.1
+  creationTimestamp: null
+  name: giteas.api.gitea.k8s
+spec:
+  group: api.gitea.k8s
+  names:
+    kind: Gitea
+    listKind: GiteaList
+    plural: giteas
+    singular: gitea
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Gitea is the Schema for the gitea API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: GiteaSpec defines the desired state of Gitea
+            properties:
+              containerport:
+                format: int32
+                type: integer
+              image:
+                type: string
+              name:
+                type: string
+              nodeport:
+                format: int32
+                type: integer
+              port:
+                format: int32
+                type: integer
+              replicas:
+                format: int32
+                type: integer
+              targetport:
+                format: int32
+                type: integer
+              versions:
+                type: string
+            required:
+            - containerport
+            - image
+            - name
+            - nodeport
+            - port
+            - replicas
+            - targetport
+            - versions
+            type: object
+          status:
+            description: GiteaStatus defines the observed state of Gitea
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
