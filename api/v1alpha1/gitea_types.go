@@ -25,14 +25,17 @@ import (
 
 // GiteaSpec defines the desired state of Gitea
 type GiteaSpec struct {
-	Name          string `json:"name"`
-	Image         string `json:"image"`
-	Versions      string `json:"versions"`
-	Port          int32  `json:"port"`
-	NodePort      int32  `json:"nodeport"`
-	TargetPort    int32  `json:"targetport"`
-	Replicas      int32  `json:"replicas"`
-	ContainerPort int32  `json:"containerport"`
+	Name           string `json:"name"`
+	Image          string `json:"image"`
+	NameSpace      string `json:"namespace"`
+	DeploymentName string `json:"deploymentname"`
+	Service        string `json:"service"`
+	Versions       string `json:"versions"`
+	Port           int32  `json:"port"`
+	NodePort       int32  `json:"nodeport"`
+	TargetPort     int    `json:"targetport"`
+	Replicas       int32  `json:"replicas"`
+	ContainerPort  int32  `json:"containerport"`
 }
 
 // GiteaStatus defines the observed state of Gitea
