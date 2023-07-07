@@ -25,11 +25,16 @@ import (
 
 // GiteaSpec defines the desired state of Gitea
 type GiteaSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of Gitea. Edit gitea_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Name int `json:"name"`
+	Image int32 `json:"image"`
+	Versions int32 `json:"versions"`
+	Port int32 `json:"port"`
+	NodePort int32 `json:"nodeport"`
+	TargetPort int32 `json:"targetport"`
+	Replicas int32 `json:"replicas"`
+	ContainerPort int32 `json:"containerport"`
+	
 }
 
 // GiteaStatus defines the observed state of Gitea
