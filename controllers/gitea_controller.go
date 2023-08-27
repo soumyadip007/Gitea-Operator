@@ -24,13 +24,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	apiv1alpha1 "github.com/soumyadip007/gitea-operator/api/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
-
-	apiv1alpha1 "github.com/soumyadip007/gitea-operator/api/v1alpha1"
+	"time"
 	//"k8s.io/apimachinery/pkg/api/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
@@ -116,7 +116,8 @@ func (r *GiteaReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		log.Info("Deployment created successfully")
 	}
 
-	return ctrl.Result{}, nil
+	// It'll check after 
+	return ctrl.Result{RequeueAfter: time.Second}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
