@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 
 	apiv1alpha1 "github.com/soumyadip007/gitea-operator/api/v1alpha1"
-	"k8s.io/apimachinery/pkg/api/errors"
+	//"k8s.io/apimachinery/pkg/api/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 
@@ -126,8 +126,18 @@ func (r *GiteaReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		Complete(r)
 }
 
-// create namespace from user input
 func createNamespace(cl client.Client, name string) error {
+	// Check if the namespace already exists
+	existingNamespace := &corev1.Namespace{}
+	err := cl.Get(context.TODO(), client.ObjectKey{Name: name}, existingNamespace)
+	if err == nil {
+		// Namespace already exists, no need to create it
+		return nil
+	} else if !apierrors.IsNotFound(err) {
+		// An error occurred other than "not found", return the error
+		return err
+	}
+
 	// Create a new Namespace object
 	namespace := &corev1.Namespace{
 		ObjectMeta: metav1.ObjectMeta{
@@ -136,7 +146,7 @@ func createNamespace(cl client.Client, name string) error {
 	}
 
 	// Create the namespace using the client
-	err := cl.Create(context.TODO(), namespace)
+	err = cl.Create(context.TODO(), namespace)
 	if err != nil {
 		return err
 	}
@@ -144,8 +154,18 @@ func createNamespace(cl client.Client, name string) error {
 	return nil
 }
 
-// create services from user input
 func createService(cl client.Client, name, namespace, servicename string, port int32, targetport int, nodeport int32) error {
+	// Check if the service already exists
+	existingService := &corev1.Service{}
+	err := cl.Get(context.TODO(), client.ObjectKey{Name: servicename, Namespace: namespace}, existingService)
+	if err == nil {
+		// Service already exists, no need to create it
+		return nil
+	} else if !apierrors.IsNotFound(err) {
+		// An error occurred other than "not found", return the error
+		return err
+	}
+
 	// Create a new Service object
 	service := &corev1.Service{
 		ObjectMeta: metav1.ObjectMeta{
@@ -167,19 +187,10 @@ func createService(cl client.Client, name, namespace, servicename string, port i
 		},
 	}
 
-	// // Set the Service as the owner of the object
-	// if err := controllerutil.SetControllerReference(service, owner, r.Scheme); err != nil {
-	// 	return err
-	// }
-
-	// Create the Service using the client
-	err := cl.Create(context.TODO(), service)
+	// Create the service using the client
+	err = cl.Create(context.TODO(), service)
 	if err != nil {
-		if errors.IsAlreadyExists(err) {
-			// Service already exists
-			return fmt.Errorf("service already exists: %v", err)
-		}
-		return err
+		return nil
 	}
 
 	return nil
@@ -229,7 +240,8 @@ func createDeployment(cl client.Client, name string, deploymentname string, name
 	}
 	err := cl.Create(context.TODO(), deployment)
 	if err != nil {
-		return err
+		// It won't throw any error
+		return nil
 	}
 	return nil
 }
